@@ -13,7 +13,7 @@ COPY . .
 RUN npm install
 
 # Build the project (Turbo repo will handle the build order)
-RUN pnpm run build
+RUN npm run build
 
 # Stage 2: Production Runner
 FROM nginx:alpine

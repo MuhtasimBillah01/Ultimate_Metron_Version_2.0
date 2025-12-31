@@ -1,5 +1,5 @@
 import React from 'react';
-import { SquareDashed, Construction } from 'lucide-react';
+import { Square, Construction } from 'lucide-react';
 
 const BlankPage1: React.FC = () => {
   return (
@@ -10,7 +10,7 @@ const BlankPage1: React.FC = () => {
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold text-slate-300">Reserved Module 1</h2>
         <p className="text-sm text-slate-500 max-w-md mx-auto">
-          This workspace is currently empty and reserved for future features. 
+          This workspace is currently empty and reserved for future features.
           Use this canvas to build new trading tools or analytics dashboards.
         </p>
       </div>

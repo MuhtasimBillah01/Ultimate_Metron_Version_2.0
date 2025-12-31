@@ -30,7 +30,7 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary
                     <Button
                         onClick={resetErrorBoundary}
                         className="w-full bg-red-600 hover:bg-red-700 text-white"
-                        icon={<RefreshCw size={16} />}
+                        leftIcon={<RefreshCw size={16} />}
                     >
                         Reload Application
                     </Button>

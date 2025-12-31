@@ -1,4 +1,166 @@
-# TextMetron Trading Platform (Ultimate Version 2.0)
+<!-- 
+CRITICAL WARNING: DO NOT DELETE, RENAME, OR OVERWRITE THIS FILE. 
+THIS FILE CONTAINS THE PERMANENT ROADMAP AND ARCHITECTURE RULES FOR THE PROJECT.
+IT IS THE SINGLE SOURCE OF TRUTH.
+-->
+# Project Architecture Rules & Guidelines (STRICT)
+
+**Status:** ACTIVE & MANDATORY
+**Author:** Muhtasim Billah
+**Enforcer:** Antigravity System
+
+## Core Directive
+All development MUST adhere to the **Hybrid Monorepo Structure**. Do NOT create flat files or generic folders outside this hierarchy.
+
+## Directory Roles (Strict Separation)
+
+### 1. `apps/` (Interface Layer)
+- **Rules:** 
+  - Contains **ONLY** user-facing or external-facing code.
+  - `apps/web`: React Frontend ONLY.
+  - `apps/api`: FastAPI Interface ONLY (Routes, Models).
+  - **PROHIBITED:** Do not put heavy trading logic or AI models here.
+
+### 2. `src/` (The Brain / Core Engine)
+- **Rules:**
+  - Contains **ALL** Business Logic, Algorithms, and Intelligence.
+  - `src/python`: Python implementation of logic.
+  - `src/rust`: High-performance Rust modules.
+  - **PROHIBITED:** Do not put UI components or API route definitions here.
+
+### 3. `models/` (Artifacts)
+- **Rules:** Store trained models (.pth, .onnx, .pkl) here. Do not store them in `src` or `apps`.
+
+### 4. `config/` & `scripts/` (DevOps)
+- **Rules:** All configuration (JSON/YAML) and automation scripts must reside here.
+
+## Agent Instructions (Self-Correction)
+- If the user asks to "create a script to check price", put it in `src/python/data` or `scripts/monitoring`, NOT in root.
+- If the user asks to "add a model", put it in `models/`, NOT in `src`.
+- **ALWAYS** remind the user if a request violates this structure.
+
+---
+*Verified and Locked by User Command [Step 1013]*
+
+এই লেআউট মনোরেপো স্টাইলে (Turborepo/pnpm দিয়ে), যাতে ফ্রন্টএন্ড (React), ব্যাকএন্ড (FastAPI), Rust, AI মডেল, ডেটা স্ক্রিপ্ট সব এক জায়গায় থাকে। i3 PC অপটিমাইজড, Docker মাল্টি-স্টেজ বিল্ড সাপোর্ট। তোমার কারেন্ট রেপোর সাথে মিলিয়ে অ্যাডজাস্ট করো (যেমন apps/web আছে, তাই রাখো)। পয়েন্ট বাই পয়েন্ট ব্যাখ্যা করছি, যাতে কোনো ফেইজের লজিক মিস না হয়।
+১. রুট ফোল্ডার (Root Directory) – বেস কনফিগ ফাইলস
+এখানে সব কমন কনফিগ, যা পুরো প্রজেক্টকে কন্ট্রোল করে। রোডম্যাপের ফেইজ ১ (ইনফ্রাস্ট্রাকচার) থেকে: GitHub, Docker, CI/CD, .env ইত্যাদি।
+
+.github/workflows/ : CI/CD পাইপলাইন (১০) – যেমন build.yml, test.yml, deploy.yml (Azure/AWS অটোমেশন, ৩,১৬)।
+.husky/ : প্রি-কমিট হুকস (লিন্টিং, টেস্টিং)।
+.turbo/ : Turborepo কনফিগ (টাস্ক রানার)।
+Dockerfile : মাল্টি-স্টেজ বিল্ড (৫,২৩৬) – Python + Rust (ONNX মাইগ্রেট, ৯১,২৫৬)।
+docker-compose.yml : সার্ভিস ডিফাইন (PostgreSQL ৬, TimescaleDB ৭, Redis ৮, API, DB)।
+.dockerignore : ইগনোর ফাইলস।
+.gitignore : Git ইগনোর।
+.env : API কীজ (Gemini/DeepSeek ১১,১৪, সিকিউরিটি ভল্ট ৪)।
+package.json & pnpm-lock.yaml : ডিপেন্ডেন্সি (pnpm-workspace.yaml দিয়ে মনোরেপো)।
+turbo.json : টাস্কস (বিল্ড, টেস্ট)।
+README.md : রোডম্যাপ + ডকুমেন্টেশন (১৮৯) – বাংলা + ইংরেজি, স্ট্যাটাস মার্কার ([ ] বা Done) সাথে।
+metadata.json : প্রজেক্ট মেটা (ভার্সন, অথর) – ডিটেইল অ্যাড করো (কারেন্টে আছে কিন্তু খালি)।
+Cargo.toml : Rust ডিপেন্ডেন্সি (২৩১, Tokio ২৩৩, Config-rs ২৩৫ ইত্যাদি)।
+pyproject.toml / poetry.lock : Python ডিপেন্ডেন্সি (Venv/Poetry ১)।
+requirements.txt : Python লাইব্রেরি (ta-lib ৪৩, scikit-learn ৬০,৮৩ ইত্যাদি)।
+.bat / startup.sh : Windows Task Scheduler (১৭), IBC টুল (১৮), ৯০-সেকেন্ড টাইমআউট (১৯)।
+
+২. apps/ – অ্যাপ্লিকেশন ফোল্ডারস (Frontend + Backend)
+রোডম্যাপের ফেইজ ১ (React ১২, FastAPI ১৩), ফেইজ ৬ (সিগন্যাল টু ফ্রন্টএন্ড ১১২), ফেইজ ১০ (ড্যাশবোর্ড ১৮২) কভার।
+
+apps/web/ : React ফ্রন্টএন্ড (মেট্রন UI)।
+src/ : কম্পোনেন্টস (DashboardPage.tsx ১৯২, SettingsModal.tsx ১৯৫, MasterConfigPage ১৩৩)।
+components/ : UI পার্টস (PnL চার্ট recharts ১৮৩, Kill Switch Shift+Escape ১৯৪)।
+stores/ : useAppStore (সিগন্যাল ১১২, addLog ১৯৩)।
+pages/ : Dashboard, Settings।
+public/ : অ্যাসেটস।
+package.json : ডিপেন্ডেন্সি।
+
+apps/api/ : FastAPI ব্যাকএন্ড (Python)।
+main.py : অ্যাপ এন্ট্রি (ফ্রন্টএন্ড কানেক্ট ১৩)।
+routers/ : এন্ডপয়েন্টস (/stop Kill Switch ১৫৩, /api/stop ১০৯)।
+models/ : ডেটা মডেলস (Pydantic)।
+utils/ : ইউটিলিটি (API ল্যাটেন্সি চেক ৭৫,১৪৫)।
+config.py : .env লোড (১৪)।
+
+
+৩. src/ – মেইন সোর্স কোড (Hybrid Python + Rust)
+রোডম্যাপের কোর লজিক এখানে: ফেইজ ২-৯,১১-১২ (ডেটা, ফিচার, AI, নিউরাল, ডিসিশন, রিস্ক, এক্সিকিউশন, ব্যাকটেস্টিং)।
+
+src/python/ : Python স্ক্রিপ্টস (হাইব্রিড অ্যাপ্রোচ)।
+data/ : ডেটা মাইনিং (ফেইজ ২) – ccxt_integration.py (২১), websocket_feed.py (২৩), whale_alert.py (৩২), twitter_sentiment.py (৩৪,৩৬), data_cleaning.py (৩০,৩৫,৪০)।
+features/ : ফিচার ইঞ্জিনিয়ারিং (ফেইজ ৩) – technical_indicators.py (৪৩, ta-lib), vwap_custom.py (৪৪), candlestick_patterns.py (৪৫), atr_volatility.py (৪৭), feature_selection.py (৬০, scikit-learn)।
+ai/ : AI ও সেন্টিমেন্ট (ফেইজ ৪) – sentiment_analysis.py (৬৩, BERT->Gemini), fake_news_filter.py (৫৪,৬৯, DeepSeek), gemini_scout.py (৭১), deepseek_strategist.py (৭২,১১৫), sentiment_logging.py (৮০, CSV)।
+neural/ : নিউরাল নেটওয়ার্ক (ফেইজ ৫) – lstm_model.py (৮১), transformer_attention.py (৮২), hyperparam_tune.py (৮৩), training_loop.py (৮৫, Colab GPU), model_save.py (৮৮), inference.py (৯৪, i3 লোকাল), drift_detection.py (৯২)।
+decision/ : ডিসিশন ইঞ্জিন (ফেইজ ৬) – hybrid_logic.py (১০১), confidence_score.py (১০৪, Gemini), buy_sell_signals.py (১০৭), kill_switch.py (১০৯), decision_logging.py (১২০, ডিসকর্ড)।
+risk/ : রিস্ক ম্যানেজমেন্ট (ফেইজ ৭) – position_sizing.py (১২১), stop_loss.py (১২২, ATR), trailing_stop.py (১২৩), drawdown_alert.py (১৩৪, টেলিগ্রাম/ডিসকর্ড), risk_metrics.py (১৩৭, Sharpe Ratio), risk_log.py (১৪০, CSV)।
+execution/ : অর্ডার এক্সিকিউশন (ফেইজ ৮) – order_placement.py (১৪১, CCXT/Hyperliquid), error_handling.py (১৪৬, Retry), market_plus_limit.py (১৫৬), order_logging.py (১৫৫)।
+backtest/ : ব্যাকটেস্টিং (ফেইজ ৯) – backtrader_setup.py (১৬১), monte_carlo.py (১৬৪), performance_report.py (১৬৫, ROI/Sharpe), ai_strategy_test.py (১৮০, DeepSeek)।
+utils/ : কমন ইউটিলিটি – holiday_check.py (২০, pandas-market-calendars), data_gap_filling.py (২৯), api_latency_check.py (৭৫)।
+hybrid_brain.py : মেইন AI ইন্টিগ্রেশন (২২৩, Brain Transplant – local to hybrid)।
+
+src/rust/ : Rust আপগ্রেড (ফেইজ ১২, লো-ফ্রিকোয়েন্সি HFT)।
+lib.rs : মেইন লজিক (২২৪, Rust Backbone)।
+async/ : Tokio অ্যাসিঙ্ক (২৩৩), websocket.rs (২৩৯, tokio-tungstenite)।
+data/ : ring_buffer.rs (২৪৯, Lock-free), zero_copy_parsing.rs (২৫০)।
+execution/ : async_placement.rs (২৬৪, Hyper), pre_trade_risk.rs (২৬১, মাইক্রো-সেকেন্ড)।
+backtest/ : rust_backtester.rs (২৬৯)।
+utils/ : rate_limiter.rs (২৪৪, Token Bucket), clock_sync.rs (২৪৭)।
+Cargo.lock : ডিপেন্ডেন্সি লক।
+
+
+৪. models/ – AI মডেলস এবং ডেটা
+ফেইজ ৫ (নিউরাল ৮৮), ফেইজ ১১ (মডেল ড্রিফট ২০২) কভার। ONNX ফরম্যাটে সেভ (৯১,২৫৬)।
+
+lstm/ : LSTM মডেল ফাইলস (৮১)।
+transformer/ : Transformer মডেল (৮২)।
+custom/ : DeepSeek কাস্টম মডেল (৭৯,২২৮)।
+onnx/ : Rust মাইগ্রেটেড মডেলস (৯১)।
+data/ : ট্রেনিং ডেটাসেট (হিস্টরিক্যাল OHLCV ২২, স্প্লিট ৫০) – CSV/Parquet।
+
+৫. tests/ – টেস্টিং ফোল্ডার
+ফেইজ ৯ (ওভারফিটিং ডিটেক্ট ১৬৯, স্ট্রেস টেস্ট ১৭০), ফেইজ ১১ (Chaos Testing ২১৭)।
+
+unit/ : ইউনিট টেস্টস (pytest/unittest) – যেমন test_sentiment.py, test_risk.py।
+integration/ : ইন্টিগ্রেশন টেস্টস (API কল, ডেটা ফ্লো)।
+e2e/ : এন্ড-টু-এন্ড (পেপার ট্রেডিং ১৬৬)।
+benchmarks/ : Criterion বেঞ্চমার্ক (২৩৮, ল্যাটেন্সি চেক ২৫৯)।
+
+৬. docs/ – ডকুমেন্টেশন
+ফেইজ ১০ (১৮৯), ফেইজ ১৩ (লিগ্যাল চেক ২৭২)।
+
+api/ : API ডকস (Swagger/FastAPI)।
+setup.md : ইনস্টল গাইড (Venv ১, Rust IDE ২৩২)।
+roadmap.pdf : দেয়া PDF (২৮০+ পয়েন্ট) – ইমেজ ID 0-7 এর মতো।
+security.md : অডিট লগ (২১৩), OpSec (২৭৩, YubiKey)।
+
+৭. scripts/ – অটোমেশন স্ক্রিপ্টস
+ফেইজ ১০ (ক্রোন রি-ট্রেনিং ১৮৭), ফেইজ ১১ (অটো-API আপডেটার ২০১)।
+
+deploy/ : GO-LIVE স্ক্রিপ্ট (১৯০, mockApi -> real ১৯১)।
+monitoring/ : system_health.py (১৮৪, CPU/RAM/API latency)।
+logging/ : discord_bot1.py (ফুল লগ ১৯৬), discord_bot2.py (ক্রিটিক্যাল ১৯৭)।
+backup/ : db_pruning.py (২০৩), multi_region_backup.py (২০৫)।
+warmup.sh : Warm-up Script (২৬৮)।
+shutdown.py : শাটডাউন প্রসেস (১৯৮, ফ্ল্যাট পজিশন)।
+
+৮. config/ – কনফিগ ফাইলস
+ফেইজ ১ (Azure VM রুলস ১৬), ফেইজ ৭ (রিস্ক পার্সেন্টেজ ১৩৩)।
+
+cloud/ : azure_rules.json (৯:০০ AM স্টার্ট, ৪:১৫ PM ডিলোকেট)।
+risk/ : config.json (Max Drawdown ১২৬, Daily Loss ১২৭)।
+api/ : keys.json (Gemini RPM ১৫, DeepSeek) – .env লিঙ্কড।
+
+৯. অ্যাডভান্সড নোটস এবং ইমপ্লিমেন্টেশন টিপস
+
+হাইব্রিড ইন্টিগ্রেশন: Python থেকে Rust কল (ONNX ৯১,২৫৬), মাল্টি-এজেন্ট (২২৭)।
+ক্লাউড: Kubernetes (২০৪) জন্য Helm চার্ট অ্যাড করো যদি স্কেল।
+Web3/DeFi: src/python/web3/ – web3.py (২০৬), uniswap_trading.py (২০৭)।
+ল্যাটেন্সি/সিকিউরিটি: Rust-এ মেমোরি সেফটি (২৩৭), Geo-locking (২১৪)।
+ডেটা স্টোর: Polars/KDB+ (২৫১), RDP রিট্রিভাল (২০০)।
+UI অ্যাডভান্স: TUI Dashboard ratatui (২৭০) src/rust/ui/ তে।
+পারফরম্যান্স: ৮০% সাকসেস (২৭৭), ১৬.৫% গেইন (২৩০) টেস্ট করো backtest/ তে।
+লঞ্চ: ফাইনাল টেস্ট (২৭৫), গিটহাব শেয়ার (২৮০)।
+
+এই লেআউট দিয়ে তোমার রেপো অ্যাডজাস্ট করো
 
 এই রোডম্যাপটি ২০২৫ সালের লেটেস্ট ট্রেন্ডস (AI Trading, DeepSeek/Gemini, Python-Rust Hybrid) এবং আপনার i3 PC-এর সীমাবদ্ধতা বিবেচনা করে তৈরি করা হয়েছে।
 
@@ -315,63 +477,3 @@
 - [ ] 279. রিস্ক ম্যানেজমেন্ট অ্যাডভান্স (20% রিস্ক রিডাকশন)।
 - [ ] 280. ফাইনাল কোড শেয়ার (গিটহাব রেপো)।
 
-## Project Directory Structure (Hybrid Architecture)
-
-This project follows a strict monorepo layout optimized for Hybrid Python-Rust-React workflow.
-
-### 1. Root Directory (Base Config)
-- `.github/workflows/` : CI/CD Pipelines (build.yml, test.yml, deploy.yml)
-- `.husky/` : Pre-commit hooks
-- `.turbo/` : Turborepo config
-- `Dockerfile` : Multi-stage build for Python + Rust + React
-- `docker-compose.yml` : Services (Postgres, TimescaleDB, Redis)
-- `.env` : API Keys (Gemini/DeepSeek - Security Vault)
-- `package.json` : Dependency Management (via pnpm/npm workspaces)
-- `turbo.json` : Task orchestration
-- `metadata.json` : Project Versioning & Metadata
-- `Cargo.toml` : Rust Workspace dependencies
-- `pyproject.toml` / `requirements.txt` : Python dependencies
-- `.bat` / `startup.sh` : Automations (Windows Task Scheduler, IBC Tools)
-
-### 2. apps/ (Applications)
-- **apps/web/** : React Frontend
-    - `src/components`, `src/pages`, `src/stores` (Zustand), `src/features` (FSD)
-- **apps/api/** : FastAPI Backend
-    - `main.py` : Entry point
-    - `routers/` : API Endpoints
-    - `models/` : Pydantic Models
-    - `utils/` : Latency checks, common utils
-
-### 3. src/ (Core Hybrid Logic)
-- **src/python/** : Python Logic (Data, Features, AI, Risk)
-    - `data/` : Mining (CCXT, WebSocket, Whale Alert, Twitter)
-    - `features/` : Engineering (TA-Lib, VWAP, Candlestick, Feature Selection)
-    - `ai/` : Sentiment (BERT, Gemini, DeepSeek, Fake News Filter)
-    - `neural/` : Models (LSTM, Transformer, Training Loop, Inference)
-    - `decision/` : Logic Engine (Hybrid Logic, Confidence Score, Buy/Sell Signals, Kill Switch)
-    - `risk/` : Management (Position Sizing, Stop Loss, Trailing Stop, Drawdown)
-    - `execution/` : Order Placement (CCXT, Retry Logic)
-    - `backtest/` : Backtrader, Monte Carlo, Performance Reports
-    - `hybrid_brain.py` : Local to Hybrid Bridge
-- **src/rust/** : High-Frequency Core
-    - `lib.rs` : Main Library
-    - `async/` : Tokio, WebSocket
-    - `data/` : Ring Buffer, Zero-copy parsing
-    - `execution/` : Async Placement, Pre-trade Risk
-    - `utils/` : Rate Limiter, Clock Sync
-
-### 4. models/ (AI Artifacts)
-- `lstm/`, `transformer/`, `custom/` (DeepSeek), `onnx/` (Rust Optimized)
-- `data/` : Training datasets (Parquet/CSV)
-
-### 5. tests/ (QA)
-- `unit/`, `integration/`, `e2e/` (Paper Trading), `benchmarks/` (Criterion)
-
-### 6. docs/ (Documentation)
-- `api/`, `setup.md`, `roadmap.pdf`, `security.md` (Audit Logs)
-
-### 7. scripts/ (Automation)
-- `deploy/`, `monitoring/` (System Health), `logging/` (Discord Bots), `backup/`, `warmup.sh`, `shutdown.py`
-
-### 8. config/ (Configuration)
-- `cloud/` (Azure Rules), `risk/` (Max Drawdown limits), `api/` (Keys mapping)

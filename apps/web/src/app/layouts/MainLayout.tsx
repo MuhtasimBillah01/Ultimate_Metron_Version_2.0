@@ -5,7 +5,7 @@ import {
     ShieldAlert, Activity, Settings as SettingsIcon,
     Cpu, Power, Bot, Moon, Sun,
     Menu, Bell, LogOut, LineChart,
-    CloudLightning, Globe, SquareDashed, CircleDashed
+    CloudLightning, Globe, Square, CircleDashed
 } from 'lucide-react';
 import { SystemStatus } from '@/shared/kernel/types';
 
@@ -129,8 +129,8 @@ const NavItem: React.FC<{ to: string, icon: React.ReactNode, label: string, badg
         to={to}
         end={end}
         className={({ isActive }) => `w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
-                ? 'bg-primary/10 text-primary border-l-2 border-primary'
-                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50'
+            ? 'bg-primary/10 text-primary border-l-2 border-primary'
+            : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/50'
             }`}
     >
         <div className="flex items-center gap-3">

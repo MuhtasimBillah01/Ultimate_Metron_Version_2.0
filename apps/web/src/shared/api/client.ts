@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useAppStore } from '@/shared/kernel/store';
 
