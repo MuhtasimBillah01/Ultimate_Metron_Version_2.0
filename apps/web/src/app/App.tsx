@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster, toast } from 'sonner';
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from 'sonner';
 import { useAppStore } from '@/shared/kernel/store';
 
 // Layouts & Providers
@@ -80,7 +81,7 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Toaster richColors position="top-right" theme="dark" />
+      <Toaster position="top-right" richColors closeButton />
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={

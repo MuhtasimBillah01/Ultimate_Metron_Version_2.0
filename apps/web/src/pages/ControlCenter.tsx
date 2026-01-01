@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useBotStore } from '../stores/useBotStore';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,12 +10,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 const pnLData = [
     { time: '00:00', pnL: 0 },
-    { time: '04:00', pnL: 120 },
-    { time: '08:00', pnL: 80 },
-    { time: '12:00', pnL: 350 },
-    { time: '16:00', pnL: 280 },
-    { time: '20:00', pnL: 620 },
-]; // Mock data, later real-time
+]; // Initial state
 
 const ControlCenter: React.FC = () => {
     const {
@@ -29,10 +24,50 @@ const ControlCenter: React.FC = () => {
         stopBot,
         killBot,
         fetchConfig,
+        loadingConfig,
+        loadingBot,
     } = useBotStore();
+
+    const [logs, setLogs] = useState<string[]>([]);
+    const [pnLChartData, setPnLChartData] = useState(pnLData);
+    const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
         fetchConfig(); // Load on mount
+
+        // WebSocket Connection
+        ws.current = new WebSocket('ws://localhost:8000/ws/control-center');
+
+        ws.current.onopen = () => console.log('WS Connected');
+
+        ws.current.onmessage = (event) => {
+            try {
+                const msg = JSON.parse(event.data);
+                if (msg.type === 'log') {
+                    setLogs(prev => [...prev.slice(-100), `${msg.level}: ${msg.message}`]);
+                } else if (msg.type === 'pnl') {
+                    setPnLChartData(prev => [...prev.slice(-20), { time: new Date().toLocaleTimeString(), pnL: msg.value }]);
+                    useBotStore.setState({ pnL: msg.value }); // Update global store PnL if needed
+                } else if (msg.type === 'status') {
+                    // Update status if provided
+                }
+            } catch (e) {
+                console.error("WS Parse Error", e);
+            }
+        };
+
+        ws.current.onclose = () => {
+            console.log('WS Disconnected - Reconnecting...');
+            // Simple reconnect logic could go here
+            setTimeout(() => {
+                // In a real app we'd trigger a re-render or effect to reconnect
+                // For now, manual refresh or simple log
+            }, 3000);
+        };
+
+        return () => {
+            ws.current?.close();
+        };
     }, [fetchConfig]);
 
     const handleSave = () => {
@@ -55,16 +90,16 @@ const ControlCenter: React.FC = () => {
                             </span>
                             {status === 'running' ? (
                                 <>
-                                    <Button onClick={stopBot} variant="outline" className="gap-2">
-                                        <PowerOff size={16} /> Stop
+                                    <Button onClick={stopBot} variant="outline" className="gap-2" disabled={loadingBot}>
+                                        {loadingBot ? 'Stopping...' : <><PowerOff size={16} /> Stop</>}
                                     </Button>
-                                    <Button onClick={killBot} variant="destructive" className="gap-2">
-                                        <AlertTriangle size={16} /> Kill Switch
+                                    <Button onClick={killBot} variant="destructive" className="gap-2" disabled={loadingBot}>
+                                        {loadingBot ? 'Killing...' : <><AlertTriangle size={16} /> Kill Switch</>}
                                     </Button>
                                 </>
                             ) : (
-                                <Button onClick={startBot} className="gap-2 bg-green-600 text-white hover:bg-green-700">
-                                    <Power size={16} /> Start Bot
+                                <Button onClick={startBot} className="gap-2 bg-green-600 text-white hover:bg-green-700" disabled={loadingBot}>
+                                    {loadingBot ? 'Starting...' : <><Power size={16} /> Start Bot</>}
                                 </Button>
                             )}
                         </div>
@@ -80,13 +115,28 @@ const ControlCenter: React.FC = () => {
                 </CardContent>
             </Card>
 
+            {/* Live Logs */}
+            <Card>
+                <CardHeader><CardTitle>Live Logs</CardTitle></CardHeader>
+                <CardContent>
+                    <div className="h-64 overflow-y-auto font-mono text-sm bg-black text-green-400 p-4 rounded scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-black">
+                        {logs.length === 0 ? (
+                            <div className="opacity-50 italic">Waiting for logs...</div>
+                        ) : (
+                            logs.map((log, i) => <div key={i}>{log}</div>)
+                        )}
+                        <div ref={(el) => el?.scrollIntoView({ behavior: "smooth" })} />
+                    </div>
+                </CardContent>
+            </Card>
+
             {/* Live PnL Chart */}
             <Card>
                 <CardHeader><CardTitle>Live PnL</CardTitle></CardHeader>
                 <CardContent>
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={pnLData}>
+                            <LineChart data={pnLChartData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                                 <XAxis dataKey="time" stroke="#888" />
                                 <YAxis stroke="#888" />
@@ -129,7 +179,9 @@ const ControlCenter: React.FC = () => {
                             <Input type="number" value={config.maxDrawdown} onChange={(e) => setConfig({ maxDrawdown: Number(e.target.value) })} />
                         </div>
                     </div>
-                    <Button onClick={handleSave} className="w-full mt-4">Save Configuration</Button>
+                    <Button onClick={handleSave} className="w-full mt-4" disabled={loadingConfig}>
+                        {loadingConfig ? 'Saving...' : 'Save Configuration'}
+                    </Button>
                 </CardContent>
             </Card>
 
