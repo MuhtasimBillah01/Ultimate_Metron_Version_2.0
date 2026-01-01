@@ -12,6 +12,16 @@ IT IS THE SINGLE SOURCE OF TRUTH.
 ## Core Directive
 All development MUST adhere to the **Hybrid Monorepo Structure**. Do NOT create flat files or generic folders outside this hierarchy.
 
+## CORE PROTOCOL: CONTINUOUS DOCUMENTATION SYNC (STRICT)
+**Rule:** Any task status change (to **"100% DONE"** OR **"In Progress"**) MUST trigger an immediate update to ALL relevant documentation files.
+**Required Updates:**
+1. `README.md` (Update Status Checklist)
+2. `docs/setup.md` (Update Instructions if changed)
+3. `docs/ULTIMATE_METRON_BLUEPRINT.md` (Mark Phase/Task as Done/In Progress)
+4. `docs/ARCHITECTURE_RULES.md` (Update Structure if refactored)
+
+**Constraint:** Do NOT proceed to the next task until documentation is synced. No logic or information shall be left undocumented.
+
 ## Directory Roles (Strict Separation)
 
 ### 1. `apps/` (Interface Layer)
@@ -176,10 +186,10 @@ UI অ্যাডভান্স: TUI Dashboard ratatui (২৭০) src/rust/ui
 - [x] 2. GitHub রিপোজিটরি তৈরি ও ব্রাঞ্চিং। **(Done)**
 - [ ] 3. AWS/Google Cloud/Azure VM সার্ভার কনফিগ (EC2 ফ্রি টিয়ার i3-এর চাপ কমাতে, অটো স্টার্ট 9:00 AM NY time)।
 - [x] 4. সিকিউরিটি ভল্ট (.env) API Keys লুকানো। **(Done)**
-- [ ] 5. Docker কন্টেইনারাইজেশন (পোর্টেবল, i3-এ লাইট, মাল্টি-স্টেজ বিল্ড Rust-এর জন্য)।
-- [ ] 6. PostgreSQL ডাটাবেস (User Data)।
-- [ ] 7. TimescaleDB (Market Data, i3-এ চলে)।
-- [ ] 8. Redis ক্যাশ (ফাস্ট অ্যাক্সেস)।
+- [x] 5. Docker কন্টেইনারাইজেশন (পোর্টেবল, i3-এ লাইট, মাল্টি-স্টেজ বিল্ড Rust-এর জন্য)। **(Done)**
+- [x] 6. PostgreSQL ডাটাবেস (User Data)। **(Done)**
+- [x] 7. TimescaleDB (Market Data, i3-এ চলে)। **(Done)**
+- [x] 8. Redis ক্যাশ (ফাস্ট অ্যাক্সেস)। **(Done)**
 - [ ] 9. Jupyter Notebook (রিসার্চ, AI মডেল টেস্টিং)।
 - [x] 10. CI/CD পাইপলাইন (GitHub Actions)। **(Done)**
 - [ ] 11. Gemini/DeepSeek API কানেকশন টেস্ট ($0.14/মিলিয়ন খরচ ম্যানেজ, ফ্রি Gemini RPM 15)।
@@ -188,10 +198,10 @@ UI অ্যাডভান্স: TUI Dashboard ratatui (২৭০) src/rust/ui
 - [x] 14. .env-এ API Keys (Gemini ফ্রি RPM 15)। **(Done)**
 - [ ] 15. i3 RAM অপটিমাইজ (Low Compute মোড)।
 - [ ] 16. Azure VM অটোমেশন রুলস (সপ্তাহদিন 9:00 AM স্টার্ট, 4:15 PM ডিলোকেট)।
-- [ ] 17. Windows Task Scheduler সেটআপ (.bat ফাইল দিয়ে স্টার্টআপ)।
+- [🚧] 17. Windows Task Scheduler সেটআপ (.bat ফাইল দিয়ে স্টার্টআপ)।
 - [ ] 18. IBC টুল ইনস্টল (IB Gateway ম্যানেজমেন্ট, কনফিগ ফাইল দিয়ে)।
-- [ ] 19. 90-সেকেন্ড টাইমআউট স্টার্টআপে (ইনিশিয়ালাইজেশনের জন্য)।
-- [ ] 20. হলিডে চেক লাইব্রেরি (pandas-market-calendars) ইন্টিগ্রেট।
+- [🚧] 19. 90-সেকেন্ড টাইমআউট স্টার্টআপে (ইনিশিয়ালাইজেশনের জন্য)।
+- [🚧] 20. হলিডে চেক লাইব্রেরি (pandas-market-calendars) ইন্টিগ্রেট।
 
 ## ফেইজ ২: ডেটা মাইনিং ও কালেকশন
 - [ ] 21. CCXT ইন্টিগ্রেশন (Binance/Bybit/Hyperliquid API)।

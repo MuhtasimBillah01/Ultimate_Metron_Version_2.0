@@ -13,6 +13,13 @@ STRICT ADHERENCE REQUIRED.
 
 ---
 
+## 🛡️ CORE PROTOCOL: CONTINUOUS DOCUMENTATION SYNC
+> **STRICT RULE:** Any task status change (to **"100% DONE"** OR **"In Progress"**) **MUST** trigger an immediate update to users' documentation.
+> - **Update:** `README.md`, `docs/setup.md`, `docs/ARCHITECTURE_RULES.md`, and `docs/ULTIMATE_METRON_BLUEPRINT.md`.
+> - **Constraint:** No logic left behind. Sync before moving to next phase.
+
+---
+
 ## ওভারভিউ (Overview)
 আমি "Ultimate_Metron_Version_2.0" প্রজেক্টের সম্পূর্ণ প্ল্যান তৈরি করেছি। এটা রোডম্যাপের ১৩টি ফেইজ এবং ২৮০+ পয়েন্ট কভার করে, কোনো লজিক বা ইনফো বাদ না দিয়ে। 
 
