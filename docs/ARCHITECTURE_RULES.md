@@ -98,8 +98,8 @@ config.py : .env লোড (১৪)।
 src/python/ : Python স্ক্রিপ্টস (হাইব্রিড অ্যাপ্রোচ)।
 data/ : ডেটা মাইনিং (ফেইজ ২) – ccxt_integration.py (২১), websocket_feed.py (২৩), whale_alert.py (৩২), twitter_sentiment.py (৩৪,৩৬), data_cleaning.py (৩০,৩৫,৪০)।
 features/ : ফিচার ইঞ্জিনিয়ারিং (ফেইজ ৩) – technical_indicators.py (৪৩, ta-lib), vwap_custom.py (৪৪), candlestick_patterns.py (৪৫), atr_volatility.py (৪৭), feature_selection.py (৬০, scikit-learn)।
-ai/ : AI ও সেন্টিমেন্ট (ফেইজ ৪) – sentiment_analysis.py (৬৩, BERT->Gemini), fake_news_filter.py (৫৪,৬৯, DeepSeek), gemini_scout.py (৭১), deepseek_strategist.py (৭২,১১৫), sentiment_logging.py (৮০, CSV)।
-neural/ : নিউরাল নেটওয়ার্ক (ফেইজ ৫) – lstm_model.py (৮১), transformer_attention.py (৮২), hyperparam_tune.py (৮৩), training_loop.py (৮৫, Colab GPU), model_save.py (৮৮), inference.py (৯৪, i3 লোকাল), drift_detection.py (৯২)।
+ai/ : AI ও সেন্টিমেন্ট (ফেইজ ৪) – sentiment_analysis.py (৬৩, BERT->Gemini), fake_news_filter.py (৫৪,৬৯, DeepSeek), gemini_scout.py (৭১), deepseek_strategist.py (৭২,১১৫), sentiment_logging.py (৮০, CSV), **hybrid_brain.py (Orchestrator)**, **providers/** (Gemini/DeepSeek Implementations).
+neural/ : নিউরাল নেটওয়ার্ক (ফেইজ ৫) – lstm_model.py (৮১), transformer_attention.py (৮২), হাইপারপ্যারামিটার টিউন (৮৩), ট্রেনিং লুপ (৮৫, Colab GPU), মডেল সেভ (৮৮), inference.py (৯৪, i3 লোকাল), ড্রিফট ডিটেকশন (৯২)।
 decision/ : ডিসিশন ইঞ্জিন (ফেইজ ৬) – hybrid_logic.py (১০১), confidence_score.py (১০৪, Gemini), buy_sell_signals.py (১০৭), kill_switch.py (১০৯), decision_logging.py (১২০, ডিসকর্ড)।
 risk/ : রিস্ক ম্যানেজমেন্ট (ফেইজ ৭) – position_sizing.py (১২১), stop_loss.py (১২২, ATR), trailing_stop.py (১২৩), drawdown_alert.py (১৩৪, টেলিগ্রাম/ডিসকর্ড), risk_metrics.py (১৩৭, Sharpe Ratio), risk_log.py (১৪০, CSV)।
 execution/ : অর্ডার এক্সিকিউশন (ফেইজ ৮) – order_placement.py (১৪১, CCXT/Hyperliquid), error_handling.py (১৪৬, Retry), market_plus_limit.py (১৫৬), order_logging.py (১৫৫)।
@@ -424,6 +424,9 @@ UI অ্যাডভান্স: TUI Dashboard ratatui (২৭০) src/rust/ui
 - [ ] 220. IP Rotation।
 - [ ] 221. ডুয়াল API ভাগ (Gemini Scout, DeepSeek Strategist)।
 - [ ] 222. ফিচার টেবিল (Sentiment -> Gemini)।
+    - `utils/` : common utils
+    - `engine/` : Main Trading Loop (Phase 2), Orchestrator binding.
+    - `hybrid_brain.py` : Local to Hybrid Brain.py
 - [ ] 223. Brain Transplant (local -> hybrid_brain.py)।
 - [ ] 224. Rust Backbone (lib.rs লজিক)।
 - [ ] 225. External Training (Colab)।

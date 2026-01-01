@@ -40,9 +40,18 @@ pnpm turbo dev --filter=web
 ```
 Dashboard: [http://localhost:4700](http://localhost:4700)
 
+### 4. Research Lab (Jupyter)
+The research environment is isolated in a Docker container.
+- Access: [http://localhost:8888](http://localhost:8888)
+- Notebooks: `./notebooks/research`
+- Libraries: `pandas`, `mplfinance`, `scikit-learn` pre-installed.
+
 ## Configuration
 - Environment variables are in `.env`.
 - Database host is dynamic (`localhost` for local, `db` for docker).
+- **AI Configuration**: 
+  - `GEMINI_API_KEY`: Required for Hybrid Brain (Rate Limit: 25 mins).
+  - `DEEPSEEK_API_KEY`: Optional (Strategist Role).
 
 ## Automation
 - [x] Windows Task Scheduler (.bat startup) **(Done)**

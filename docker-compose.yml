@@ -46,6 +46,35 @@ services:
     networks:
       - metron-network
 
+  research:
+    build:
+      context: .
+      dockerfile: Dockerfile.research
+    container_name: metron-research
+    # Jupyter Lab start command with security token 'metron'
+    command: jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='metron'
+    volumes:
+      - ./notebooks:/app/notebooks # Mirroring notebooks folder
+      - ./src:/app/src # Access to main source code logic
+    ports:
+      - "8888:8888"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50' # Requested: Half Core
+          memory: 1.5G # Requested: 1.5 GB RAM
+        reservations:
+          cpus: '0.10'
+          memory: 500M
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=metron
+      - DATABASE_HOST=db # Internal Docker Network Hostname
+    networks:
+      - metron-network
+    restart: always
+
 networks:
   metron-network:
     driver: bridge

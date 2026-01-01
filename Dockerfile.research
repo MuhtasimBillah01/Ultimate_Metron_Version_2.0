@@ -1,0 +1,26 @@
+# Base Image: Python 3.10 Slim
+FROM python:3.10-slim
+
+# Set Working Directory
+WORKDIR /app
+
+# Install System Dependencies (gcc for compiling some libs)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy Requirements
+COPY requirements.txt .
+
+# Install Python Libraries (including Jupyter & Research tools)
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create Notebook Directory
+RUN mkdir -p /app/notebooks
+
+# Expose Jupyter Port
+EXPOSE 8888
+
+# Command to run Jupyter Lab (Moved to docker-compose, but keeping default here)
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

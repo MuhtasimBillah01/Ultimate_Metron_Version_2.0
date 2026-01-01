@@ -65,7 +65,7 @@ STRICT ADHERENCE REQUIRED.
 Python এনভায়রনমেন্ট সেটআপ (১: Venv/Poetry/Anaconda) এবং GitHub রেপো ব্রাঞ্চিং (২)।
 ক্লাউড VM কনফিগ (৩: AWS/Azure, অটো-স্টার্ট ৯:০০ AM NY time)।
 Docker কন্টেইনারাইজেশন (৫: মাল্টি-স্টেজ Rust জন্য) এবং ডাটাবেস সেটআপ (৬-৮: PostgreSQL, TimescaleDB, Redis)।
-API কানেকশন টেস্ট (১১: Gemini/DeepSeek, $0.14/মিলিয়ন ম্যানেজ) এবং .env সিকিউরিটি (৪,১৪)।
+API কানেকশন টেস্ট (১১: Gemini/DeepSeek, $0.14/মিলিয়ন ম্যানেজ) - **(Done - Hybrid Brain)**.
 Azure অটোমেশন (১৬)- [x] 20. হলিডে চেক লাইব্রেরি (pandas-market-calendars) ইন্টিগ্রেট। **(Done)**
 আলোচনা: প্রায়োরিটি বেস সেটআপ, i3 RAM অপটিমাইজ (১৫) চেক। সময়: ৩-৪ ঘণ্টা।
 জেনারেল টাস্ক
@@ -73,8 +73,8 @@ README স্ট্যাটাস আপডেট এবং গিট কমি
 আলোচনা: দিনের শেষে টেস্ট রান, যাতে কালকের জন্য রেডি।
 জানুয়ারি ০২, ২০২৬ (শুক্রবার): ডেটা মাইনিং শুরু
 আজ ফোকাস ডেটা কালেকশনে, যাতে AI ফেইজের জন্য ডেটা রেডি।
-ফেইজ ২: ডেটা মাইনিং (পয়েন্ট ২১-৪০)
-CCXT ইন্টিগ্রেশন (২১: Binance/Bybit) এবং Historical OHLCV (২২: Alpha Vantage)।
+ফেইজ ২: ডেটা মাইনিং (পয়েন্ট ২১-৪০) - **PIVOT: Public Data Mode (No Broker)**
+CCXT ইন্টিগ্রেশন (২১: Binance/Bybit Public) এবং Historical OHLCV (২২: Alpha Vantage/YFinance)।
 WebSocket ফিড (২৩) এবং অন-চেইন ডেটা (২৪: Glassnode)।
 Whale Alert (৩২), FEAR & GREED (৩৩), Twitter/X API (৩৪)।
 ডেটা ক্লিনিং (৩০: Interpolation ২৯) এবং ভ্যালিডেশন (৩৫,৪০: বায়াস চেক)।
@@ -95,7 +95,7 @@ README আপডেট।
 ফেইজ ৪: AI ও সেন্টিমেন্ট (পয়েন্ট ৬১-৮০)
 Twitter স্ক্র্যাপার (৬১) এবং BERT/Gemini স্কোর (৬৩)।
 Whale ট্র্যাকিং (৬৫), FEAR & GREED (৬৭), ফেক নিউজ (৬৯)।
-DeepSeek Strategist (৭২) এবং লগিং (৮০: CSV)।
+DeepSeek Strategist (৭২: **Ready for Integration**) এবং Gemini Scout (৭১: **Done + Cached**), লগিং ( ৮০: CSV)।
 আলোচনা: ল্যাটেন্সি চেক (৭৫), মাল্টিমোডাল (৭৮)। সময়: ৪-৫ ঘণ্টা।
 জেনারেল টাস্ক
 ডিসকর্ড লগিং টেস্ট (১৯৬-১৯৭)।

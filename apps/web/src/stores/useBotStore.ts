@@ -145,20 +145,8 @@ export const useBotStore = create<BotState>((set, get) => ({
 
   fetchStatus: async () => {
     try {
-      // Keeping original fetch logic or converting to apiCall? 
-      // Converting for consistency.
-      const data = await apiCall(async () => {
-        const res = await fetch('/api/status/');
-        if (!res.ok) throw new Error('Failed to fetch status');
-        return res.json();
-      }, { errorMessage: undefined }); // No toast on background status fetch fail ideally? 
-      // User didn't specify, but regular status polling shouldn't spam toasts.
-      // So I'll suppress error toast or leave it as console error only?
-      // apiCall always toasts on error if errorMessage is provided or default.
-      // I'll make a slight variation or just use it. 
-      // Let's just use raw fetch for status to avoid spam, OR use apiCall with empty error message if I support that?
-      // My apiCall uses default if msg missing.
-      // I'll stick to original logic for fetchStatus to avoid spamming toasts on polling errors.
+      // Polling for status silently without toast notifications
+
 
       // actually, let's just use `fetch` + `set` explicitly to match the "Pattern" but be silent.
       const res = await fetch('/api/status/');
